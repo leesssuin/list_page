@@ -20,7 +20,7 @@ a {
 }
 
 body {
-  padding: 0 6rem;
+  padding: 2rem 4rem;
 }
 
 h1,
