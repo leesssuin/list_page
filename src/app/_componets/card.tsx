@@ -1,4 +1,4 @@
-"use clinet";
+"use clinet"
 
 import Image from "next/image";
 import styled from "styled-components";
@@ -54,26 +54,26 @@ export const Card = ({ product }: { product: ProductInfo }) => {
     consumerPrice,
     sellPrice,
     discountRate,
-    heartCount
-  } = product;
+    heartCount } = product;
 
   return (
     <CardContainer key={id}>
-      <StyledImage alt={`${name} 이미지`} src={image} fill />
+      <StyledImage alt={`${name} 이미지`} src={image}
+        fill />
       <div className="brand">{brand}</div>
       <div className="name">{name}</div>
       <div className="cunsumer-price">
         {consumerPrice === sellPrice
           ? " "
-          : `${consumerPrice.toLocaleString()} 원`}
-      </div>
+          : `${consumerPrice.toLocaleString()} 원`}</div>
       <div>
-        {discountRate !== 0 && (
-          <span className="discount-rate">{`${discountRate}%`}</span>
-        )}
+        {discountRate !== 0 &&
+          <span className="discount-rate">{`${discountRate}%`}
+          </span>
+        }
         <span className="sell-price">{sellPrice.toLocaleString()}</span> 원
       </div>
       <div className="heart-count">❤️ {heartCount}</div>
     </CardContainer>
   );
-};
+}
