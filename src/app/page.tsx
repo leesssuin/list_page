@@ -1,11 +1,24 @@
-import { ListPageLayout } from "./styles";
+"use client";
+
+import { useState } from "react";
+
+import { FilterBar } from "./_componets/filter";
 import { ItemList } from "./_componets/list";
+import { ListPageLayout } from "./styles";
+import { FilterType } from "~/types";
 
 export default function List() {
+  const [filterType, setFilterType] = useState<FilterType>({
+    pageNumber: 0,
+    isSale: false,
+    isSoldOut: false,
+    category: undefined
+  });
+
   return (
     <ListPageLayout>
-      <div>menu</div>
-      <ItemList />
+      <FilterBar filterType={filterType} setFilterType={setFilterType} />
+      <ItemList filterType={filterType} />
     </ListPageLayout>
   );
 }

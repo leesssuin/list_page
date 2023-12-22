@@ -1,9 +1,9 @@
-"use clinet"
+"use clinet";
 
 import Image from "next/image";
 import styled from "styled-components";
 
-import { ProductInfo } from "~/types";
+import { Product } from "~/types";
 
 const CardContainer = styled.div`
   position: relative;
@@ -45,7 +45,7 @@ const StyledImage = styled(Image)`
   height: 68% !important;
 `;
 
-export const Card = ({ product }: { product: ProductInfo }) => {
+export const Card = ({ product }: { product: Product }) => {
   const {
     id,
     name,
@@ -54,26 +54,31 @@ export const Card = ({ product }: { product: ProductInfo }) => {
     consumerPrice,
     sellPrice,
     discountRate,
-    heartCount } = product;
+    isSoldOut,
+    heartCount
+  } = product;
 
   return (
     <CardContainer key={id}>
-      <StyledImage alt={`${name} 이미지`} src={image}
-        fill />
+      <StyledImage alt={`${name} 이미지`} src={image} fill />
       <div className="brand">{brand}</div>
       <div className="name">{name}</div>
       <div className="cunsumer-price">
         {consumerPrice === sellPrice
           ? " "
-          : `${consumerPrice.toLocaleString()} 원`}</div>
-      <div>
-        {discountRate !== 0 &&
-          <span className="discount-rate">{`${discountRate}%`}
-          </span>
-        }
-        <span className="sell-price">{sellPrice.toLocaleString()}</span> 원
+          : `${consumerPrice.toLocaleString()} 원`}
       </div>
+      {isSoldOut ? (
+        "품절"
+      ) : (
+        <div>
+          {discountRate !== 0 && (
+            <span className="discount-rate">{`${discountRate}%`}</span>
+          )}
+          <span className="sell-price">{sellPrice.toLocaleString()}</span> 원
+        </div>
+      )}
       <div className="heart-count">❤️ {heartCount}</div>
     </CardContainer>
   );
-}
+};
