@@ -4,11 +4,11 @@ import { useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
+import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
 import { filteredListState, productListState } from "~/stores/product";
 import { FilterType, Product, PropsFilter } from "~/types";
 import ProductList from "~/mocks/item.json";
 import { Card } from "./card";
-import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
 
 const ListSection = styled.section`
   display: grid;

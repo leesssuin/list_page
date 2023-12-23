@@ -20,11 +20,6 @@ export interface PropsFilter {
   setFilterType: React.Dispatch<React.SetStateAction<FilterType>>;
 }
 
-export type PriceFilter = {
-  minPrice: number;
-  maxPrice: number;
-};
-
 export type FilterType = {
   currentPageNumber: number;
   isSale: boolean;

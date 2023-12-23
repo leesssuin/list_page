@@ -8,11 +8,6 @@ export const productListState = atom<Product[]>({
   default: []
 });
 
-export const pageState = atom<number>({
-  key: "pageState",
-  default: 0
-});
-
 export const categoryState = selector({
   key: "categoryState",
   get: ({ get }) => {
