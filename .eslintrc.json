@@ -5,15 +5,16 @@
     "es2021": true,
     "node": true
   },
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier", "eslint-plugin-prettier"],
   "extends": [
-    "next/core-web-vitals",
+    "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier",
     "plugin:react-hooks/recommended",
-    "eslint:recommended"
+    "plugin:@typescript-eslint/recommended",
+    "next/core-web-vitals",
+    "plugin:prettier/recommended",
+    "eslint-config-prettier",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -31,9 +32,9 @@
     "react/prop-types": 0,
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "indent": ["error", 2],
+    "indent": "off",
     "quotes": ["error", "double"],
-    "semi": [0, "always"]
+    "semi": "off"
   },
   "settings": {
     "import/resolver": {
