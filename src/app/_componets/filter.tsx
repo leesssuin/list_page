@@ -52,7 +52,7 @@ export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
   };
 
   useEffect(() => {}, [
-    filterType.pageNumber,
+    filterType.currentPageNuber,
     filterType.isSoldOut,
     filterType.isSale
   ]);

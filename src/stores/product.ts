@@ -1,5 +1,6 @@
 import { atom, selector, selectorFamily } from "recoil";
 
+import { chunkArray } from "~/utils/chunkArray";
 import { FilterType, Product } from "~/types";
 
 export const productListState = atom<Product[]>({
@@ -30,7 +31,7 @@ export const filteredListState = selectorFamily({
   get:
     (params: FilterType) =>
     ({ get }) => {
-      const { isSale, isSoldOut, category } = params;
+      const { currentPageNumber, isSale, isSoldOut, category } = params;
 
       const list = get(productListState);
 
@@ -63,6 +64,16 @@ export const filteredListState = selectorFamily({
         });
       })();
 
-      return filteredList;
+      const seperateList = chunkArray(filteredList, 9);
+
+      let combinedList: Product[] = [];
+
+      for (let i = 0; i <= currentPageNumber; i++) {
+        if (seperateList[i]) {
+          combinedList = [...combinedList, ...seperateList[i]];
+        }
+      }
+
+      return combinedList;
     }
 });

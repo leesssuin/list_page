@@ -21,7 +21,7 @@ export type PriceFilter = {
 };
 
 export type FilterType = {
-  pageNumber: number;
+  currentPageNumber: number;
   isSale: boolean;
   isSoldOut: boolean;
   category: undefined | string;

@@ -9,7 +9,7 @@ import { FilterType } from "~/types";
 
 export default function List() {
   const [filterType, setFilterType] = useState<FilterType>({
-    pageNumber: 0,
+    currentPageNumber: 0,
     isSale: false,
     isSoldOut: false,
     category: undefined
@@ -18,7 +18,7 @@ export default function List() {
   return (
     <ListPageLayout>
       <FilterBar filterType={filterType} setFilterType={setFilterType} />
-      <ItemList filterType={filterType} />
+      <ItemList filterType={filterType} setFilterType={setFilterType} />
     </ListPageLayout>
   );
 }
