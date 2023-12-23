@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { FilterType, PropsFilter } from "~/types";
+import { SearchInput } from "./search";
 
 const FilterBarContainer = styled.section`
   .category-container {
@@ -52,7 +53,7 @@ export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
   };
 
   useEffect(() => {}, [
-    filterType.currentPageNuber,
+    filterType.currentPageNumber,
     filterType.isSoldOut,
     filterType.isSale
   ]);
@@ -90,6 +91,7 @@ export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
         />
         <label>할인상품만</label>
       </div>
+      <SearchInput filterType={filterType} setFilterType={setFilterType} />
     </FilterBarContainer>
   );
 };

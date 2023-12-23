@@ -15,6 +15,11 @@ export interface Product {
   reviewCount: number;
 }
 
+export interface PropsFilter {
+  filterType: FilterType;
+  setFilterType: React.Dispatch<React.SetStateAction<FilterType>>;
+}
+
 export type PriceFilter = {
   minPrice: number;
   maxPrice: number;
@@ -25,9 +30,5 @@ export type FilterType = {
   isSale: boolean;
   isSoldOut: boolean;
   category: undefined | string;
+  searchKeyword: undefined | string;
 };
-
-export interface PropsFilter {
-  filterType: FilterType;
-  setFilterType: React.Dispatch<React.SetStateAction<FilterType>>;
-}

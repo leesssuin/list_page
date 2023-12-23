@@ -12,7 +12,8 @@ export default function List() {
     currentPageNumber: 0,
     isSale: false,
     isSoldOut: false,
-    category: undefined
+    category: undefined,
+    searchKeyword: undefined
   });
 
   return (

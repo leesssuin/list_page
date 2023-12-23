@@ -31,11 +31,12 @@ export const filteredListState = selectorFamily({
   get:
     (params: FilterType) =>
     ({ get }) => {
-      const { currentPageNumber, isSale, isSoldOut, category } = params;
+      const { currentPageNumber, isSale, isSoldOut, category, searchKeyword } =
+        params;
 
       const list = get(productListState);
 
-      const initState = !isSale && !isSoldOut && !category;
+      const initState = !isSale && !isSoldOut && !category && !searchKeyword;
 
       const filteredList = (() => {
         if (initState) {
@@ -49,8 +50,12 @@ export const filteredListState = selectorFamily({
             const categoryCondition =
               !category ||
               (item.category.includes(category) && !item.isSoldOut);
+            const searchCondition =
+              !searchKeyword ||
+              item.name.includes(searchKeyword) ||
+              (item.brand.includes(searchKeyword) && !item.isSoldOut);
 
-            return saleCondition && categoryCondition;
+            return saleCondition && categoryCondition && searchCondition;
           });
         }
 
@@ -59,8 +64,17 @@ export const filteredListState = selectorFamily({
           const saleConition = !isSale || item.discountRate !== 0;
           const categoryCondition =
             !category || item.category.includes(category);
+          const searchCondition =
+            !searchKeyword ||
+            item.name.includes(searchKeyword) ||
+            item.brand.includes(searchKeyword);
 
-          return soldOutCondition && saleConition && categoryCondition;
+          return (
+            soldOutCondition &&
+            saleConition &&
+            categoryCondition &&
+            searchCondition
+          );
         });
       })();
 
