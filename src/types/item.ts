@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface Product {
   id: number;
   name: string;
@@ -14,16 +12,3 @@ export interface Product {
   heartCount: number;
   reviewCount: number;
 }
-
-export interface PropsFilter {
-  filterType: FilterType;
-  setFilterType: React.Dispatch<React.SetStateAction<FilterType>>;
-}
-
-export type FilterType = {
-  currentPageNumber: number;
-  isSale: boolean;
-  isSoldOut: boolean;
-  category: undefined | string;
-  searchKeyword: undefined | string;
-};

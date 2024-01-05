@@ -1,35 +1,48 @@
-import { atom, selector, selectorFamily } from "recoil";
+import { atom, selectorFamily } from "recoil";
 
 import { chunkArray } from "~/utils/chunkArray";
-import { FilterType, Product } from "~/types";
+import { Product } from "~/types";
 
 export const productListState = atom<Product[]>({
   key: "productListState",
   default: []
 });
 
-export const categoryState = selector({
+export const pageNumberState = atom<number>({
+  key: "pageNumberState",
+  default: 0
+});
+
+export const isSoldOutState = atom<boolean>({
+  key: "isSoldOutState",
+  default: false
+});
+
+export const isSaleState = atom<boolean>({
+  key: "isSaleState",
+  default: false
+});
+
+export const categoryState = atom<undefined | string>({
   key: "categoryState",
-  get: ({ get }) => {
-    const productList = get(productListState);
+  default: undefined
+});
 
-    const categoryList = Array.from(
-      new Set(productList.flatMap((item) => item.category))
-    );
-
-    return categoryList;
-  }
+export const searchKeywordState = atom<undefined | string>({
+  key: "searchKeywordState",
+  default: undefined
 });
 
 export const filteredListState = selectorFamily({
   key: "filteredListState",
   get:
-    (params: FilterType) =>
+    (pageNumber: number) =>
     ({ get }) => {
-      const { currentPageNumber, isSale, isSoldOut, category, searchKeyword } =
-        params;
-
       const list = get(productListState);
+      const isSoldOut = get(isSoldOutState);
+      const isSale = get(isSaleState);
+      const category = get(categoryState);
+      const searchKeyword = get(searchKeywordState);
 
       const initState = !isSale && !isSoldOut && !category && !searchKeyword;
 
@@ -38,6 +51,7 @@ export const filteredListState = selectorFamily({
           return list.filter((item) => !item.isSoldOut);
         }
 
+        // 품절 미포함
         if (!isSoldOut) {
           return list.filter((item) => {
             const saleCondition =
@@ -54,6 +68,7 @@ export const filteredListState = selectorFamily({
           });
         }
 
+        // 품절 포함
         return list.filter((item) => {
           const soldOutCondition = !isSoldOut || list;
           const saleConition = !isSale || item.discountRate !== 0;
@@ -77,7 +92,7 @@ export const filteredListState = selectorFamily({
 
       let combinedList: Product[] = [];
 
-      for (let i = 0; i <= currentPageNumber; i++) {
+      for (let i = 0; i <= pageNumber; i++) {
         if (seperateList[i]) {
           combinedList = [...combinedList, ...seperateList[i]];
         }

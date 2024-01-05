@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { FilterType, PropsFilter } from "~/types";
-import { filteredListState } from "~/stores";
+import { filteredListState, pageNumberState, searchKeywordState } from "~/stores";
 
 const SearchContainer = styled.div`
   position: relative;
@@ -50,11 +49,13 @@ const AutoSearchData = styled.div`
   }
 `;
 
-export const SearchInput = ({ filterType, setFilterType }: PropsFilter) => {
+export const SearchInput = () => {
   const [keyword, setKeyword] = useState<string>("");
   const [searchedData, setSearchedData] = useState<string[]>([]);
 
-  const filteredList = useRecoilValue(filteredListState(filterType));
+  const pageNumber = useRecoilValue(pageNumberState);
+  const filteredList = useRecoilValue(filteredListState(pageNumber));
+  const setSearchKeyword = useSetRecoilState(searchKeywordState);
 
   const onChangeInput = (event: React.FormEvent<HTMLInputElement>) => {
     setKeyword(event.currentTarget.value);
@@ -63,10 +64,7 @@ export const SearchInput = ({ filterType, setFilterType }: PropsFilter) => {
   const handleKeywordClick = (ev: React.MouseEvent<HTMLElement>) => {
     const event = ev.target as HTMLDivElement;
 
-    setFilterType((prevState: FilterType) => ({
-      ...prevState,
-      searchKeyword: event.id
-    }));
+    setSearchKeyword(event.id);
   };
 
   const searchData = () => {
@@ -101,10 +99,7 @@ export const SearchInput = ({ filterType, setFilterType }: PropsFilter) => {
 
       if (!keyword.length) {
         setSearchedData([]);
-        setFilterType((prevState: FilterType) => ({
-          ...prevState,
-          searchKeyword: undefined
-        }));
+        setSearchKeyword(undefined);
       }
     }, 300);
 

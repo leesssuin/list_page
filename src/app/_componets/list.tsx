@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
+import { filteredListState, productListState, pageNumberState } from "~/stores/product";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
-import { filteredListState, productListState } from "~/stores/product";
-import { FilterType, Product, PropsFilter } from "~/types";
 import ProductList from "~/mocks/item.json";
+import { Product } from "~/types";
 import { Card } from "./card";
 
 const ListSection = styled.section`
@@ -21,11 +21,12 @@ const ListSection = styled.section`
   }
 `;
 
-export const ItemList = ({ filterType, setFilterType }: PropsFilter) => {
-  const lastRef = useRef<HTMLDivElement>(null);
+export const ItemList = () => {
+  const lastRef = useRef<HTMLDivElement | null>(null);
 
   const [productList, setProductList] = useRecoilState(productListState);
-  const filteredList = useRecoilValue(filteredListState(filterType));
+  const [currentPageNumber, setCurrentPageNumber] = useRecoilState(pageNumberState);
+  const filteredList = useRecoilValue(filteredListState(currentPageNumber));
 
   const renderList = (() => {
     if (!filteredList) {
@@ -37,21 +38,18 @@ export const ItemList = ({ filterType, setFilterType }: PropsFilter) => {
     ));
   })();
 
+  useIntersectionObserver(([entry]) => {
+    const totalPage = productList.length / 10;
+    const hasNextPage = currentPageNumber < totalPage ? true : false;
+    
+    if (entry.isIntersecting && hasNextPage) {
+      setCurrentPageNumber(currentPageNumber + 1);
+    }
+  }, lastRef);
+  
   useEffect(() => {
     setProductList(ProductList);
   }, []);
-
-  useIntersectionObserver(([entry]) => {
-    const totalPage = productList.length / 10;
-    const hasNextPage = filterType.currentPageNumber < totalPage ? true : false;
-
-    if (entry.isIntersecting && hasNextPage) {
-      setFilterType((prevState: FilterType) => ({
-        ...prevState,
-        currentPageNumber: prevState.currentPageNumber + 1
-      }));
-    }
-  }, lastRef);
 
   return (
     <ListSection>

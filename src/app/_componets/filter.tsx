@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { FilterType, PropsFilter } from "~/types";
+import { categoryState, isSaleState, isSoldOutState } from "~/stores";
 import { SearchInput } from "./search";
 
 const FilterBarContainer = styled.section`
@@ -24,7 +25,11 @@ const Category = styled.div`
   cursor: pointer;
 `;
 
-export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
+export const FilterBar = () => {
+  const setIsSale = useSetRecoilState(isSaleState);
+  const setIsSoldOut = useSetRecoilState(isSoldOutState);
+  const [clickedCategory, setClickedCategory] = useRecoilState(categoryState);
+
   const categoryList = [
     "전체",
     "EXCLUSIVE",
@@ -39,24 +44,22 @@ export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
   const handleCategoryButtonClick = (ev: React.MouseEvent<HTMLElement>) => {
     const event = ev.target as HTMLDivElement;
 
-    setFilterType((prevState: FilterType) => ({
-      ...prevState,
-      category: event.id === "전체" ? undefined : event.id
-    }));
+    setClickedCategory(event.id === "전체" ? undefined : event.id);
   };
 
   const handleCheckBoxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterType((prevState: FilterType) => ({
-      ...prevState,
-      [event.target.name]: event.target.checked
-    }));
-  };
+    const { name, checked } = event.target;
 
-  useEffect(() => {}, [
-    filterType.currentPageNumber,
-    filterType.isSoldOut,
-    filterType.isSale
-  ]);
+    console.log(event.target.name, event.target.checked);
+
+    if (name === "isSoldOut") {
+      setIsSoldOut(checked);
+    }
+
+    if (name === "isSale") {
+      setIsSale(checked);
+    }
+  };
 
   return (
     <FilterBarContainer>
@@ -65,7 +68,7 @@ export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
         {categoryList.map((category, idx) => (
           <Category
             key={idx}
-            color={category === filterType.category ? "#F54419" : "#000000"}
+            color={category === clickedCategory ? "#F54419" : "#000000"}
             id={category}
             onClick={handleCategoryButtonClick}
           >
@@ -91,7 +94,7 @@ export const FilterBar = ({ filterType, setFilterType }: PropsFilter) => {
         />
         <label>할인상품만</label>
       </div>
-      <SearchInput filterType={filterType} setFilterType={setFilterType} />
+      <SearchInput />
     </FilterBarContainer>
   );
 };
