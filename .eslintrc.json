@@ -41,7 +41,7 @@
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       },
-      "typescript": ".tsconfig.json"
+      "typescript": "./tsconfig.json"
     }
   }
 }
