@@ -9,7 +9,7 @@ import GlobalStyles from "~/styles/globalStyle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "상품 리스트 페이지",
+  title: "상품 리스트",
   description: "가방"
 };
 
