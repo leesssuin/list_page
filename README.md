@@ -14,7 +14,7 @@ npm run dev
 - Recoil
 - Styled-components
 
-## 구현 스펙
+## 구현 기능
 - 무한 스크롤 기능
 - 상품 필터링 기능
   - 품절상품 기본으로 숨겨져 있으며, 필터로 표시 가능
