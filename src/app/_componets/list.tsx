@@ -4,11 +4,15 @@ import { useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import { filteredListState, productListState, pageNumberState } from "~/stores/product";
 import { useIntersectionObserver } from "~/hooks/useIntersectionObserver";
 import ProductList from "~/mocks/item.json";
 import { Product } from "~/types";
 import { Card } from "./card";
+import {
+  filteredListState,
+  productListState,
+  pageNumberState
+} from "~/stores/product";
 
 const ListSection = styled.section`
   display: grid;
@@ -25,7 +29,8 @@ export const ItemList = () => {
   const lastRef = useRef<HTMLDivElement | null>(null);
 
   const [productList, setProductList] = useRecoilState(productListState);
-  const [currentPageNumber, setCurrentPageNumber] = useRecoilState(pageNumberState);
+  const [currentPageNumber, setCurrentPageNumber] =
+    useRecoilState(pageNumberState);
   const filteredList = useRecoilValue(filteredListState(currentPageNumber));
 
   const renderList = (() => {
@@ -41,12 +46,12 @@ export const ItemList = () => {
   useIntersectionObserver(([entry]) => {
     const totalPage = productList.length / 10;
     const hasNextPage = currentPageNumber < totalPage ? true : false;
-    
+
     if (entry.isIntersecting && hasNextPage) {
       setCurrentPageNumber(currentPageNumber + 1);
     }
   }, lastRef);
-  
+
   useEffect(() => {
     setProductList(ProductList);
   }, []);

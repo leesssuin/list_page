@@ -50,8 +50,6 @@ export const FilterBar = () => {
   const handleCheckBoxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
 
-    console.log(event.target.name, event.target.checked);
-
     if (name === "isSoldOut") {
       setIsSoldOut(checked);
     }

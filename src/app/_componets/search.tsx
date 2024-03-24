@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { filteredListState, pageNumberState, searchKeywordState } from "~/stores";
+import {
+  filteredListState,
+  pageNumberState,
+  searchKeywordState
+} from "~/stores";
 
 const SearchContainer = styled.div`
   position: relative;
