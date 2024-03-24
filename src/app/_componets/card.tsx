@@ -1,7 +1,9 @@
 "use clinet";
 
-import Image from "next/image";
+import React from "react";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import Image from "next/image";
 
 import { Product } from "~/types";
 
@@ -46,6 +48,8 @@ const StyledImage = styled(Image)`
 `;
 
 export const Card = ({ product }: { product: Product }) => {
+  const router = useRouter();
+
   const {
     id,
     name,
@@ -59,7 +63,7 @@ export const Card = ({ product }: { product: Product }) => {
   } = product;
 
   return (
-    <CardContainer key={id}>
+    <CardContainer key={id} onClick={() => router.push(`/detail/${id}`)}>
       <StyledImage alt={`${name} 이미지`} src={image} fill />
       <div className="brand">{brand}</div>
       <div className="name">{name}</div>

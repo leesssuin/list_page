@@ -2,6 +2,7 @@ import { Metadata } from "next";
 
 import { getMetaData } from "~/utils/getMetaData";
 import ProductDetail from "./_components/detail";
+import { DetailPageContainer } from "./styles";
 import ProductList from "~/mocks/item.json";
 
 type PageParams = {
@@ -14,12 +15,19 @@ export const getData = (id: number) => {
   return productInfo;
 };
 
-export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params
+}: {
+  params: PageParams;
+}): Promise<Metadata> => {
   const { id } = params;
 
   const productInfo = getData(id);
 
-  return getMetaData({ title: productInfo?.name, description: productInfo?.brand });
+  return getMetaData({
+    title: productInfo?.name,
+    description: productInfo?.brand
+  });
 };
 
 export default function DetailPage({ params }: { params: PageParams }) {
@@ -28,6 +36,8 @@ export default function DetailPage({ params }: { params: PageParams }) {
   const productInfo = getData(id);
 
   return (
-    <ProductDetail item={productInfo} />
+    <DetailPageContainer>
+      <ProductDetail item={productInfo} />
+    </DetailPageContainer>
   );
-};
+}
